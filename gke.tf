@@ -12,7 +12,7 @@ variable "gke_password" {
 }
 
 variable "gke_num_nodes" {
-  default     = 2
+  default     = 1
   description = "number of gke nodes"
 }
 
@@ -31,7 +31,9 @@ resource "google_container_cluster" "primary" {
   # node pool and immediately delete it.
   remove_default_node_pool = true
   initial_node_count       = 1
-
+  node_config {
+    disk_size_gb=10
+  }
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
 }
@@ -50,10 +52,13 @@ resource "google_container_node_pool" "primary_nodes" {
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
     ]
+    disk_size_gb=10
 
     labels = {
       env = var.project_id
     }
+
+
 
     # preemptible  = true
     machine_type = "n1-standard-1"
