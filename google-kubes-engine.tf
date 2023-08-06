@@ -1,24 +1,10 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-variable "gke_username" {
-  default     = ""
-  description = "gke username"
-}
-
-variable "gke_password" {
-  default     = ""
-  description = "gke password"
-}
-
-variable "gke_num_nodes" {
-  default     = 1
-  description = "number of gke nodes"
-}
 
 # GKE cluster
 data "google_container_engine_versions" "gke_version" {
-  location = var.region
+  location       = var.region
   version_prefix = "1.27."
 }
 
@@ -32,7 +18,8 @@ resource "google_container_cluster" "primary" {
   remove_default_node_pool = true
   initial_node_count       = 1
   node_config {
-    disk_size_gb=10
+    disk_size_gb = 10
+    tags         = ["gke-node", "${var.project_id}-gke"]
   }
   network    = google_compute_network.vpc.name
   subnetwork = google_compute_subnetwork.subnet.name
@@ -40,11 +27,11 @@ resource "google_container_cluster" "primary" {
 
 # Separately Managed Node Pool
 resource "google_container_node_pool" "primary_nodes" {
-  name       = google_container_cluster.primary.name
-  location   = var.region
-  cluster    = google_container_cluster.primary.name
-  
-  version = data.google_container_engine_versions.gke_version.release_channel_latest_version["STABLE"]
+  name     = google_container_cluster.primary.name
+  location = var.region
+  cluster  = google_container_cluster.primary.name
+
+  version    = data.google_container_engine_versions.gke_version.release_channel_latest_version["STABLE"]
   node_count = var.gke_num_nodes
 
   node_config {
@@ -52,14 +39,11 @@ resource "google_container_node_pool" "primary_nodes" {
       "https://www.googleapis.com/auth/logging.write",
       "https://www.googleapis.com/auth/monitoring",
     ]
-    disk_size_gb=10
+    disk_size_gb = 10
 
     labels = {
       env = var.project_id
     }
-
-
-
     # preemptible  = true
     machine_type = "n1-standard-1"
     tags         = ["gke-node", "${var.project_id}-gke"]
@@ -76,6 +60,11 @@ resource "google_container_node_pool" "primary_nodes" {
 # # We recommend you put this in another file -- so you can have a more modular configuration.
 # # https://learn.hashicorp.com/terraform/kubernetes/provision-gke-cluster#optional-configure-terraform-kubernetes-provider
 # # To learn how to schedule deployments and services using the provider, go here: https://learn.hashicorp.com/tutorials/terraform/kubernetes-provider.
+
+
+
+
+
 
 # provider "kubernetes" {
 #   load_config_file = "false"
