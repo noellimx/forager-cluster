@@ -12,19 +12,6 @@ provider "helm" {
 }
 
 
-# , "--project", var.project_id
-
-# resource "helm_release" "forager-helm" {
-#   name        = "forager-helm-1"
-#   chart       = "forager-helm"
-#   repository  = "https://noellimx.github.io/forager-helm"
-#   namespace   = "forager-helm"
-#   max_history = 3
-#   create_namespace = true
-#   wait             = true
-#   reset_values     = true
-# }
-
 variable "forager_helm_chart_version" {
   description = "Chart version"
   nullable    = false
@@ -45,6 +32,8 @@ resource "helm_release" "forager-helm" {
   reset_values     = true
   version          = var.forager_helm_chart_version
 
+
+  force_update = true
 
   set {
     name  = "nginxVersion"
