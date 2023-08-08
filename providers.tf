@@ -7,6 +7,10 @@ terraform {
       source  = "hashicorp/google"
       version = "4.74.0"
     }
+    argocd = {
+      source  = "oboukili/argocd"
+      version = "6.0.2"
+    }
   }
   required_version = ">= 0.14"
 }

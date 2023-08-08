@@ -13,16 +13,14 @@ resource "helm_release" "argocd" {
   create_namespace = true
 }
 
-# (5)
-resource "helm_release" "argocd-apps" {
-  depends_on = [helm_release.argocd]
-  chart      = "argocd-apps"
-  name       = "argocd-apps"
-  namespace  = "argocd"
-  repository = "https://argoproj.github.io/argo-helm"
+provider "argocd" {
+  port_forward_with_namespace = "argocd"
 
-  # (6)
-  # values = [
-  #   file("argocd/applications.yaml")
-  # ]
+  kubernetes {
+    host  = "https://${google_container_cluster.primary.endpoint}"
+    token = data.google_client_config.provider.access_token
+    cluster_ca_certificate = base64decode(
+      google_container_cluster.primary.master_auth[0].cluster_ca_certificate
+    )
+  }
 }

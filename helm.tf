@@ -6,11 +6,7 @@ provider "helm" {
       google_container_cluster.primary.master_auth[0].cluster_ca_certificate
     )
   }
-  experiments {
-    manifest = true
-  }
 }
-
 
 variable "forager_helm_chart_version" {
   description = "Chart version"
@@ -21,22 +17,49 @@ variable "nginx_version" {
   description = "nginx version"
   nullable    = false
 }
-resource "helm_release" "forager-helm" {
-  name             = "forager-helm-1"
-  chart            = "forager-helm"
-  repository       = "https://noellimx.github.io/forager-helm"
-  namespace        = "forager-helm"
-  max_history      = 3
+
+resource "argocd_application" "helm" {
+  metadata {
+    name      = "forager-helm-1"
+    namespace = "argocd"
+  }
   create_namespace = true
-  wait             = true
-  reset_values     = true
-  version          = var.forager_helm_chart_version
+
+  wait = true
+
+  spec {
+    source {
+      repo_url        = "https://noellimx.github.io/forager-helm"
+      chart           = "forager-helm"
+      target_revision = var.forager_helm_chart_version
+      helm {
+        parameter {
+          name  = "nginxVersion"
+          value = var.nginx_version
+        }
+      }
+    }
+
+    sync_policy {
+      automated {
+        prune       = true
+        self_heal   = true
+        allow_empty = false
+      }
+      retry {
+        limit = "5"
+        backoff {
+          duration     = "30s"
+          max_duration = "1m"
+          factor       = "2"
+        }
+      }
+    }
 
 
-  force_update = true
-
-  set {
-    name  = "nginxVersion"
-    value = var.nginx_version
+    destination {
+      server    = "https://kubernetes.default.svc"
+      namespace = "forager-helm"
+    }
   }
 }
