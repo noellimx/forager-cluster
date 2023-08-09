@@ -1,33 +1,21 @@
 #/bin/sh
 
-
 export TF_VAR_project_id="polished-triode-394707"
 export TF_VAR_region="us-west3"
-export TF_VAR_forager_helm_chart_version="0.1.4-20230808-003"
-export TF_LOG=DEBUG
+export TF_VAR_forager_helm_chart_version="0.1.4-20230808-007-010"
+export TF_VAR_forager_helm_chart_repo="https://noellimx.github.io/forager-helm"
 export TF_VAR_nginx_version="nginx:1.17.0"
 
 export ARGOCD_AUTH_USERNAME=admin
-export ARGOCD_AUTH_PASSWORD=DddAKjhasJ9EKxFj
+export ARGOCD_AUTH_PASSWORD=
 
-
-
+# export TF_LOG=DEBUG
 
 terraform init -upgrade
 # terraform plan
 terraform apply -auto-approve
 
-
-
-
 # export GOOGLE_CREDENTIALS=/Users/noel/repos/learn-terraform-provision-gke-cluster/application_default_credentials.json
 # export GOOGLE_CREDENTIALS=/Users/noel/.config/gcloud/application_default_credentials.json
 
 # kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-
-
-# +-----------+------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------------------+--------------------------+----------------------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+-----------------------+-------------------+----------------+------------------+----------------+------------------------+---------------------+--------------------------+-----------------+
-# | Host      | User | Select_priv | Insert_priv | Update_priv | Delete_priv | Create_priv | Drop_priv | Reload_priv | Shutdown_priv | Process_priv | File_priv | Grant_priv | References_priv | Index_priv | Alter_priv | Show_db_priv | Super_priv | Create_tmp_table_priv | Lock_tables_priv | Execute_priv | Repl_slave_priv | Repl_client_priv | Create_view_priv | Show_view_priv | Create_routine_priv | Alter_routine_priv | Create_user_priv | Event_priv | Trigger_priv | Create_tablespace_priv | ssl_type | ssl_cipher             | x509_issuer              | x509_subject               | max_questions | max_updates | max_connections | max_user_connections | plugin                | authentication_string | password_expired | password_last_changed | password_lifetime | account_locked | Create_role_priv | Drop_role_priv | Password_reuse_history | Password_reuse_time | Password_require_current | User_attributes |
-# +-----------+------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------------------+--------------------------+----------------------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+-----------------------+-------------------+----------------+------------------+----------------+------------------------+---------------------+--------------------------+-----------------+
-# | localhost | root | Y           | Y           | Y           | Y           | Y           | Y         | Y           | Y             | Y            | Y         | Y          | Y               | Y          | Y          | Y            | Y          | Y                     | Y                | Y            | Y               | Y                | Y                | Y              | Y                   | Y                  | Y                | Y          | Y            | Y                      |          | 0x                     | 0x                       | 0x                         |             0 |           0 |               0 |                    0 | caching_sha2_password |                       | N                | 2023-08-08 11:25:17   |              NULL | N              | Y                | Y              |                   NULL |                NULL | NULL                     | NULL            |
-# +-----------+------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+---------------+--------------+-----------+------------+-----------------+------------+------------+--------------+------------+-----------------------+------------------+--------------+-----------------+------------------+------------------+----------------+---------------------+--------------------+------------------+------------+--------------+------------------------+----------+------------------------+--------------------------+----------------------------+---------------+-------------+-----------------+----------------------+-----------------------+-----------------------+------------------+-----------------------+-------------------+----------------+------------------+----------------+------------------------+---------------------+--------------------------+-----------------+

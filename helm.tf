@@ -13,6 +13,11 @@ variable "forager_helm_chart_version" {
   nullable    = false
 }
 
+variable "forager_helm_chart_repo" {
+  description = "Chart version"
+  nullable    = false
+}
+
 variable "nginx_version" {
   description = "nginx version"
   nullable    = false
@@ -23,7 +28,6 @@ resource "argocd_application" "helm" {
     name      = "forager-helm-1"
     namespace = "argocd"
   }
-  create_namespace = true
 
   wait = true
 
