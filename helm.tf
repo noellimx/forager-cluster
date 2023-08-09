@@ -33,7 +33,7 @@ resource "argocd_application" "helm" {
 
   spec {
     source {
-      repo_url        = "https://noellimx.github.io/forager-helm"
+      repo_url        = var.forager_helm_chart_repo
       chart           = "forager-helm"
       target_revision = var.forager_helm_chart_version
       helm {
