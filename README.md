@@ -19,7 +19,7 @@ A live GKE cluster and access via `kubectl`.
 
 ## Access to argo admin
 1. `kubectl port-forward svc/argocd-server -n argocd 8080:443` port forward to expose admin server locally.
-2. Access via web.
+2. Access via web. 
 
 ## Restart Deployment
-`# kubectl rollout restart deployment forager --namespace=forager-helm`
+`# kubectl rollout restart deployment forager --namespace=forager-helm` 

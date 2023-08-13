@@ -2,12 +2,12 @@
 
 export TF_VAR_project_id="polished-triode-394707"
 export TF_VAR_region="us-west3"
-export TF_VAR_forager_helm_chart_version="0.1.4-20230812-007-001"
+export TF_VAR_forager_helm_chart_version="0.1.4-20230813-011"
 export TF_VAR_forager_helm_chart_repo="https://noellimx.github.io/forager-helm"
 export TF_VAR_nginx_version="nginx:1.17.0"
 
 export ARGOCD_AUTH_USERNAME=admin
-export ARGOCD_AUTH_PASSWORD=
+export ARGOCD_AUTH_PASSWORD=DddAKjhasJ9EKxFj
 
 # export TF_LOG=DEBUG
 
